@@ -6,27 +6,39 @@ import PropTypes from "prop-types";
 
 // eslint-disable-next-line react/prop-types
 const GlobalState = (props) => {
-  const [user, setUser] = useState("");
+  const [users, setUsers] = useState([]);
   useEffect(() => {
     getAllUsers();
   }, []);
 
-  const getAllUsers = async () => {
-    try {
-      const response = await axios.get(
-        "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
-        Headers
-      );
-      setUser(response.data);
-    } catch (error) {
-      console.log(error.response);
-    }
+  const getAllUsers =  () => {
+    // try {
+    //   const response = await axios.get(
+    //     "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
+    //     {
+    //       headers: {
+    //         Authorization: "rodrigo-santos-carver",
+    //       },
+    //     }
+    //   );
+    //   console.log(response)
+    //   setUsers(response.data);
+    // } catch (error) {
+    //   console.log(error.response);
+    // }
+    axios.get("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
+        {
+          headers: {
+            Authorization: "rodrigo-santos-carver",
+          },
+        }).then((res)=>console.log(res))
+        .catch((err) => console.log(err))
   };
-
+  
   const data = {
     getAllUsers,
-    user,
-    setUser,
+    users,
+    setUsers,
   };
   return (
     <GlobalContext.Provider value={data}>
