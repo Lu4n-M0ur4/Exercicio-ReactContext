@@ -7,13 +7,14 @@ import GlobalContext from "../../context/GlobalContext";
 export default function Homepage() {
   const context = useContext(GlobalContext);
 
-  const { users, getUserByid, setUserData } = context;
-
-
+  const { users, userData, idTrue, setIdTrue, setUserData,getUserByid} = context;
+  console.log(idTrue);
   return (
     <ChakraProvider>
-      {users.map((user) => (
-        <>
+      {users.map((user) => {
+        // setId(user.id);
+
+        return (
           <Flex key={user.id}>
             <Box display="flex" justifyContent="space-around" width="100%">
               <Card maxW="sm" boxShadow={"dark-lg"}>
@@ -36,13 +37,26 @@ export default function Homepage() {
                   <Text flexWrap="nowrap" fontSize="6xl">
                     {user.name}
                   </Text>
+                  <button
+                    onClick={() => {
+                     getUserByid(user.id)
+                    }}
+                  >
+                    ola
+                  </button>
+                  {idTrue === true && user.id === userData.id ?  (
+                    <Text flexWrap="nowrap" fontSize="6xl">
+                      {userData.email}
+                    </Text>
+                  ) : (
+                    " "
+                  )}
                 </Box>
               </Card>
             </Box>
           </Flex>
-          
-        </>
-      ))}
+        );
+      })}
     </ChakraProvider>
   );
 }

@@ -7,10 +7,16 @@ import PropTypes from "prop-types";
 const GlobalState = (props) => {
   const [users, setUsers] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [idTrue, setIdTrue] = useState(false)
+
+
   useEffect(() => {
     getUsers();
-    getUserByid();
+    
+
   }, []);
+
+console.log(userData);
 
   const getUsers = async () => {
     try {
@@ -33,7 +39,7 @@ const GlobalState = (props) => {
   const getUserByid = async (userId) => {
     try {
       const response = await axios.get(
-        `https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${userid}`,
+        `https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${userId}`,
         {
           headers: {
             Authorization: "luan-moura-easley",
@@ -41,18 +47,24 @@ const GlobalState = (props) => {
           },
         }
       );
-
-      console.log(response.data);
+      
+      setIdTrue(!idTrue)
+      setUserData(response.data);
     } catch (error) {
       console.log(error.response);
     }
   };
-
+  
+  
   const data = {
     getUserByid,
     users,
     userData,
-    setUserData,
+    idTrue, 
+    setIdTrue,
+    setUserData
+   
+    
   };
   return (
     <GlobalContext.Provider value={data}>
