@@ -1,44 +1,58 @@
 import { useEffect, useState } from "react";
 import GlobalContext from "./GlobalContext.js";
 import axios from "axios";
-import Headers from "../utils/Authorization.js";
+// import Headers from "../utils/Authorization.js";
 import PropTypes from "prop-types";
 
-// eslint-disable-next-line react/prop-types
 const GlobalState = (props) => {
   const [users, setUsers] = useState([]);
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    getAllUsers();
+    getUsers();
+    getUserByid();
   }, []);
 
-  const getAllUsers =  () => {
-    // try {
-    //   const response = await axios.get(
-    //     "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
-    //     {
-    //       headers: {
-    //         Authorization: "rodrigo-santos-carver",
-    //       },
-    //     }
-    //   );
-    //   console.log(response)
-    //   setUsers(response.data);
-    // } catch (error) {
-    //   console.log(error.response);
-    // }
-    axios.get("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
+  const getUsers = async () => {
+    try {
+      const response = await axios.get(
+        "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
         {
           headers: {
-            Authorization: "rodrigo-santos-carver",
+            Authorization: "luan-moura-easley",
+            // Authorization: "rodrigo-santos-carver",
           },
-        }).then((res)=>console.log(res))
-        .catch((err) => console.log(err))
+        }
+      );
+
+      setUsers(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
-  
+
+  const getUserByid = async (userId) => {
+    try {
+      const response = await axios.get(
+        `https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${userid}`,
+        {
+          headers: {
+            Authorization: "luan-moura-easley",
+            // Authorization: "rodrigo-santos-carver",
+          },
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   const data = {
-    getAllUsers,
+    getUserByid,
     users,
-    setUsers,
+    userData,
+    setUserData,
   };
   return (
     <GlobalContext.Provider value={data}>
